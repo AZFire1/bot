@@ -11,6 +11,7 @@ const config = loadYAML('config')
 // Env
 require('dotenv').config();
 const APIKey = process.env.EXCHANGE_API_KEY
+// Get a key at https://www.exchangerate-api.com
 
 // Chalk
 const chalk = require('chalk');
@@ -32,7 +33,7 @@ module.exports = {
         let amount = arguments[2] ? Number(arguments[2]) : 1
         let type
         if (baseCurrency.length !== 3) {
-            message.channel.send(embed('error', `Invalid Currency Code`, `\`${baseCurrency}\` isn't a valid currency code.\nExamples of a valid codes:`).addFields(
+            message.channel.send(embed('error', `Invalid Currency Code`, `\`${baseCurrency}\` isn't a valid currency code.\nExamples of valid codes:`).addFields(
                 { name: `Euro`, value: `\`\`\`EUR\`\`\``, inline: true },
                 { name: `US Dollar`, value: `\`\`\`USD\`\`\``, inline: true },
                 { name: `British Pound`, value: `\`\`\`GBP\`\`\``, inline: true },
@@ -43,7 +44,7 @@ module.exports = {
             type = 'rate'
         } else {
             if (toCurrency.length !== 3) {
-                message.channel.send(embed('error', `Invalid Currency Code`, `\`${toCurrency}\` isn't a valid currency code.\nExamples of a valid codes:`).addFields(
+                message.channel.send(embed('error', `Invalid Currency Code`, `\`${toCurrency}\` isn't a valid currency code.\nExamples of valid codes:`).addFields(
                     { name: `Euro`, value: `\`EUR\``, inline: true },
                     { name: `US Dollar`, value: `\`USD\``, inline: true },
                     { name: `British Pound`, value: `\`GBP\``, inline: true },
@@ -60,25 +61,48 @@ module.exports = {
         switch (type) {
             case 'rate':
                 let symbols = config.Currency.Rate.Symbols.filter(symbol => symbol !== baseCurrency)
-                axios.get(`http://data.fixer.io/api/latest?access_key=${APIKey}&base=${baseCurrency}&symbols=${symbols}`)
+                axios.get(`https://v6.exchangerate-api.com/v6/${APIKey}/latest/${baseCurrency}`)
                     .then((data) => {
-                        const rateEmbed = embed('default', `Here is the exchnage rate of \`${baseCurrency}\` compared to the most common currencies.`).addField(`${baseCurrency}`, `\`\`\`${amount}\`\`\``, false)
-                        console.log(data.data)
-                        for (symbol of symbols) {
-                            rateEmbed.addField(`${symbol}`, `\`\`\`${data.data.rates[symbol]}\`\`\``)
+                        if (data.data.result === 'success') {
+                            rateEmbed = embed('default', `Currency Exchange Rate`, `Here is the exchnage rate of \`${baseCurrency}\` to other common currencies.`).addField(`\`${baseCurrency}\` → `, `\`\`\`${amount}\`\`\``, false)
+                            for (symbol of symbols) {
+                                rateEmbed.addField(`\`${symbol}\``, `\`\`\`${data.data.conversion_rates[symbol]}\`\`\``, true)
+                            }
+                            rateEmbed.addField(`Updated At`, `\`\`\`${data.data.time_last_update_utc}\`\`\``, false)
+                            message.channel.send(rateEmbed)
+                        } else if (data.data["error-type"] === 'unsupported-code') {
+                            message.channel.send(embed('error', `Unsupported Code`, `The code \`${baseCurrency}\` isn't supported or doesn't exist.`))
+                        } else {
+                            message.channel.send(embed('error', `Unknown`, `An unknown error occured, ask an admin to look into it.`))
+                            console.log(errorPrefixColor(config.ConsoleStyle.Prefix.Error), data.data)
                         }
-                        message.channel.send(rateEmbed)
                     })
                     .catch((err) => {
                         console.log(errorPrefixColor(config.ConsoleStyle.Prefix.Error), err)
                     })
                 return
             case 'convert':
-                if (config.Currency.ConvertEndpointAvailable === true) {
-
-                } else {
-
-                }
+                axios.get(`https://v6.exchangerate-api.com/v6/${APIKey}/pair/${baseCurrency}/${toCurrency}`)
+                    .then((data) => {
+                        if (data.data.result === 'success') {
+                            let convertedAmount = amount * data.data.conversion_rate
+                            let weakerCurrency = amount < convertedAmount ? toCurrency : baseCurrency
+                            message.channel.send(embed('default', `Currency Conversion`, `Here is the exchnage rate of \`${baseCurrency}\` to \`${toCurrency}\`.`).addFields(
+                                { name: `\`${baseCurrency}\` → \`${toCurrency}\``, value: `\`\`\`${amount} ${baseCurrency} = ${convertedAmount} ${toCurrency}\`\`\``, inline: false },
+                                { name: `Convertion Rate`, value: `\`\`\`${data.data.conversion_rate}\`\`\``, inline: true },
+                                { name: `Wearker Currency`, value: `\`\`\`${weakerCurrency}\`\`\``, inline: true },
+                                { name: `Updated At`, value: `\`\`\`${data.data.time_last_update_utc}\`\`\``, inline: false },
+                            ))
+                        } else if (data.data["error-type"] === 'unsupported-code') {
+                            message.channel.send(embed('error', `Unsupported Code`, `The codes \`${baseCurrency}\` or/and \`${toCurrency}\` isn't supported or doesn't exist.`))
+                        } else {
+                            message.channel.send(embed('error', `Unknown`, `An unknown error occured, ask an admin to look into it.`))
+                            console.log(errorPrefixColor(config.ConsoleStyle.Prefix.Error), data.data)
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(errorPrefixColor(config.ConsoleStyle.Prefix.Error), err)
+                    })
                 return
             default:
                 return
