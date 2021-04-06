@@ -1,19 +1,13 @@
 # Aesthetic BOT
 
-Aesthetic BOT (aesthetic-bot) is my first Discord bot, it's a general purpose bot. the to-do list can be found here: https://trello.com/b/RrA3avCJ/aesthetic-bot
-
-Join my community discord server here https://discord.gg/7T24Mrw, it is not for the bot's development.
+Aesthetic BOT (aesthetic-bot) started development after looking at bots for sale on the market, but they have problems due to their complexity; our mission is to develop a basic and still effective Discord bot. More specifically, the goal is to allow for the intergration of addons that allow for a larger range of features. All in the name of free, open source, transparency, and collaboration. For the occasion, we even created a license.
 
 # Bot Information
-- Language: **discord.js** *(node.js, javascript)*
-- Version: **in package.json**
-- Testing server: https://discord.gg/u69Jm4T
-- Dependencies: 
-  - **discord.js**
-  - **chalk**
-  - **dotenv**
-  - **js-yaml**
-  - nodemon *(optional)*
+- **Language:** discord.js *(node.js, javascript)*
+- **Version:** *The version number is located in the package.json file and when you start the bot.*
+- **Testing server:** https://discord.gg/u69Jm4T
+- **Dependencies:** 
+  - *make sure to keep package.json AND package-lock.json*
 
 *running `npm start` will get those for you*
 
