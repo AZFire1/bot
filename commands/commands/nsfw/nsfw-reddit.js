@@ -22,7 +22,7 @@ module.exports = {
     minArgs: 1,
     maxArgs: 1,
     nsfw: true,
-    description: "Get the exchange rate of a currency compared to the eur or convert it with another.",
+    description: "Fetch NSFW posts from reddit.",
     callback: (client, message, arguments) => {
         const bannedSubreddits = config.NSFW.Reddit.BannedSubreddits.List
         let subreddit = arguments[0].toLowerCase()

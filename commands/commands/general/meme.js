@@ -24,7 +24,7 @@ module.exports = {
     commands: ['meme', 'memes'],
     expectedArgs: '<subreddit / none>',
     maxArgs: 1,
-    description: "Get the exchange rate of a currency compared to the eur or convert it with another.",
+    description: "Fetch memes from reddit.",
     callback: (client, message, arguments) => {
         const defaultSubreddit = config.Meme.DefaultSubreddit
         const validSubreddits = config.Meme.ValidSubreddits
