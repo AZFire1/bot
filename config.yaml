@@ -24,9 +24,9 @@
 # Bot Token in an .env file for safety...  #
 # Learn more in README.md                  #
 ############################################
-OwnerID: 285358176096747522
-BotName: "Aesthetic BOT"
-Prefix: "-"
+OwnerID: '285358176096747522'
+BotName: 'Aesthetic BOT'
+Prefix: '-'
 
 Embeds:
   Color:
@@ -82,7 +82,20 @@ NSFW:
       Enabled: false
       List:
         - something
-# More to come...
+
+#
+
+############################################
+#                                          #
+#   Warning! The eval command is a very    #
+#   risky command, it should only be on    #
+#   if you know what you are doing!        #
+#                                          #
+############################################
+Eval:
+  Enabled: false
+# The owner ID can be changed at the beginning of this file
+# This command allows to run javascript straight from a text channel!
 
 ############################################
 #                                          #

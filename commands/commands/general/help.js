@@ -16,10 +16,9 @@ module.exports = {
 	expectedArgs: '<command> / none',
 	maxArgs: 1,
 	description: "Gives a list of avaliable commands and more info about them.",
-	callback: (client, message, arguments, text) => {
+	callback: (client, message, arguments) => {
 		const title = (str) => str.replace(/\b\S/g, (t) => t.toUpperCase());
 		if (!arguments[0]) {
-			// Not going to touch this embed...
 			const helpEmbed = embed('default', `Command Help`, `Here are the avaliable commands.`)
 			const commandsFiles = fs.readdirSync(path.join(__dirname, '../'));
 			const folders = commandsFiles.filter(command => !command.includes('.js'));
