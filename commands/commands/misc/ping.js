@@ -7,7 +7,7 @@ const config = loadYAML('config')
 
 module.exports = {
     commands: ['ping', 'latency'],
-	description: "Check the bot's and api latency.",
+	description: "Check the bot's and api latency",
     callback: (client, message) => {
 		// Calculate bot latency
         const ping = new Date().getTime() - message.createdTimestamp;

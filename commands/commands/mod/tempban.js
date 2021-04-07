@@ -7,11 +7,11 @@ const config = loadYAML('config')
 
 module.exports = {
     commands: ['tempban', 'tempoban', 'temp-ban', 'tempo-ban', 'temporaryban', 'temporary-ban'],
-    expectedArgs: '<user> <time (1-7 days)> <reason>',
-    minArgs: 1,
+    expectedArgs: 'user* time* reason',
+    minArgs: 2,
     requiredRoles: ['Mod'],
     serverOnly: true,
-    description: "Temporarily ban a member.",
+    description: "Temporarily ban a member",
     callback: (client, message, arguments) => {
         let targetUser = message.mentions.members.first()
         if (!targetUser) {

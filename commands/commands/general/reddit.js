@@ -22,10 +22,10 @@ const highlightColor = chalk.yellow
 
 module.exports = {
     commands: ['reddit'],
-    expectedArgs: '<subreddit> <type>',
+    expectedArgs: 'subreddit* type',
     minArgs: 1,
     maxArgs: 2,
-    description: "Fetch posts from reddit.",
+    description: "Fetch posts from reddit",
     callback: (client, message, arguments) => {
         const bannedSubreddits = config.Reddit.BannedSubreddits.List
         let subreddit = arguments[0].toLowerCase()

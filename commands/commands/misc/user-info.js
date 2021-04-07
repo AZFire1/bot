@@ -7,9 +7,9 @@ const config = loadYAML('config')
 
 module.exports = {
 	commands: ['user-info', 'userinfo'],
-    expectedArgs: '<user / none>',
+    expectedArgs: 'user',
     maxArgs: 1,
-    description: "Get some information about a user or yourself.",
+    description: "Get some information about a user or yourself",
 	callback: (client, message) => {
             if (!message.mentions.users.size) {
                 message.channel.send(embed('default', `Your User Info`, `Here is some info on yourself.`).addFields(

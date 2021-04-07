@@ -13,9 +13,9 @@ const config = loadYAML('config')
 
 module.exports = {
 	commands: ["help"],
-	expectedArgs: '<command> / none',
+	expectedArgs: 'command',
 	maxArgs: 1,
-	description: "Gives a list of avaliable commands and more info about them.",
+	description: "Get a list of available commands and more info about them",
 	callback: (client, message, arguments) => {
 		const title = (str) => str.replace(/\b\S/g, (t) => t.toUpperCase());
 		if (!arguments[0]) {
@@ -105,8 +105,9 @@ module.exports = {
 						continue
 					}
 				}
-				message.channel.send(embed('default', `\`${mainCommand}\` Command Help`, `**Description**\n${description}`).addFields(
+				message.channel.send(embed('default', `\`${mainCommand}\` Command Help`, `Arguments with a \`*\` after them are required`).addFields(
 					{ name: 'Usage', value: `\`\`\`${config.Prefix}${mainCommand} ${args}\`\`\``, inline: false },
+					{ name: 'Description', value: `\`\`\`${description}\`\`\``, inline: false },
 					{ name: 'Required Roles & Permissions', value: `\`\`\`${requiredRolesAndPerms}\`\`\``, inline: true },
 					{ name: 'Accessible', value: `\`\`\`${canRun}\`\`\``, inline: true },
 				))

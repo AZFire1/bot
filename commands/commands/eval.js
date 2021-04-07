@@ -7,7 +7,7 @@ const config = loadYAML('config')
 
 module.exports = {
     commands: ['eval'],
-	description: "Eval javascript",
+	description: "Evaluate javascript code",
     callback: (client, message, arguments) => {
         if (message.author.id === config.OwnerID) {
             if (config.Eval.Enabled) {

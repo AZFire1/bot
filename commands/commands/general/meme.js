@@ -22,9 +22,9 @@ const highlightColor = chalk.yellow
 
 module.exports = {
     commands: ['meme', 'memes'],
-    expectedArgs: '<subreddit / none>',
+    expectedArgs: 'subreddit',
     maxArgs: 1,
-    description: "Fetch memes from reddit.",
+    description: "Fetch memes from reddit",
     callback: (client, message, arguments) => {
         const defaultSubreddit = config.Meme.DefaultSubreddit
         const validSubreddits = config.Meme.ValidSubreddits

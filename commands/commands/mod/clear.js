@@ -7,12 +7,12 @@ const config = loadYAML('config')
 
 module.exports = {
 	commands: ['clear', 'clean'],
-    expectedArgs: '<number>',
+    expectedArgs: 'number*',
     minArgs: 1,
     maxArgs: 1,
     requiredRoles: ['Mod'],
     serverOnly: true,
-    description: "Clear a certain number of messages at once.",
+    description: "Clear a certain number of messages at once",
 	callback: (client, message, arguments) => {
 		if (arguments == 'all') {
             message.channel.messages.fetch().then(results => {

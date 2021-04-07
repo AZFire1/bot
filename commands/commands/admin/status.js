@@ -7,10 +7,10 @@ const config = loadYAML('config')
 
 module.exports = {
     commands: ['status', 'botstatus', 'bot-status'],
-    expectedArgs: '<status> <type> <text>',
+    expectedArgs: 'status* type* text*',
     minArgs: 3,
     requiredRoles: ['Admin'],
-    description: "Change the bot's status.",
+    description: "Change the bot's status",
     callback: (client, message, arguments) => {
         const status = arguments[0].toLowerCase()
         const type = arguments[1].toUpperCase()

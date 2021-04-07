@@ -7,11 +7,11 @@ const config = loadYAML('config')
 
 module.exports = {
     commands: ['ban', 'permban', 'perm-ban', 'permaban', 'perma-ban'],
-    expectedArgs: '<user> <reason>',
+    expectedArgs: 'user* reason',
     minArgs: 1,
     requiredRoles: ['Mod'],
     serverOnly: true,
-    description: "Ban a member.",
+    description: "Ban a member",
     callback: (client, message, arguments) => {
         let memberTag = message.mentions.members.first()
         if (!memberTag) {

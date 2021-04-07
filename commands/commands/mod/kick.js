@@ -7,11 +7,11 @@ const config = loadYAML('config')
 
 module.exports = {
     commands: ['kick'],
-    expectedArgs: '<user> <reason>',
+    expectedArgs: 'user* reason',
     minArgs: 1,
     requiredRoles: ['Mod'],
     serverOnly: true,
-    description: "Kick a member.",
+    description: "Kick a member",
     callback: (client, message, arguments) => {
         let targetUser = message.mentions.members.first()
         if (!targetUser) {

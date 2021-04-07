@@ -7,10 +7,10 @@ const config = loadYAML('config')
 
 module.exports = {
     commands: ['embed'],
-    expectedArgs: '<hex colour / default> <title> <text>',
+    expectedArgs: 'colour* title* text*',
     minArgs: 3,
     requiredRoles: ['Admin'],
-    description: "Send a fancy embed message with the bot.",
+    description: "Send a fancy embed message with the bot",
     callback: (client, message, arguments) => {
         var color = arguments[0].toLowerCase()
         const title = arguments[1]

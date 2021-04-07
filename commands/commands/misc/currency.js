@@ -22,11 +22,11 @@ const urlColor = chalk.blue.underline
 const highlightColor = chalk.yellow
 
 module.exports = {
-    commands: ['currency', 'fiat', 'exchange-rate', 'exchangerate'],
-    expectedArgs: '<base curreny code> <to currency code / none> <amount / none>',
+    commands: ['currency', 'fiat', 'exchange-rate', 'exchangerate', 'convert-money', 'convertmoney'],
+    expectedArgs: 'base-code* to-code amount',
     minArgs: 1,
     maxArgs: 3,
-    description: "Get the exchange rate of a currency compared to the eur or convert it with another.",
+    description: "Get the exchange rate of a currency or convert it with another",
     callback: (client, message, arguments) => {
         let baseCurrency = arguments[0].toUpperCase()
         let toCurrency = arguments[1] ? arguments[1].toUpperCase() : 'none'

@@ -7,7 +7,7 @@ const config = loadYAML('config')
 
 module.exports = {
 	commands: ['server-info', 'serverinfo', 'guild-info', 'guildinfo'],
-	description: "Get some information about the server.",
+	description: "Get some information about the server",
 	serverOnly: true,
 	callback: (client, message) => {
 		message.channel.send(embed('default', `Server Info`, `Here is some info on this server.`).addFields(

@@ -7,11 +7,11 @@ const config = loadYAML('config')
 
 module.exports = {
     commands: ['unban', 'unpermban', 'unperm-ban', 'unpermaban', 'unperma-ban', 'untempban', 'untempoban', 'untemp-ban', 'untempo-ban', 'untemporaryban', 'untemporary-ban'],
-    expectedArgs: '<userID> <reason>',
+    expectedArgs: 'userID* reason',
     minArgs: 1,
     requiredRoles: ['Mod'],
     serverOnly: true,
-    description: "Unban a member.",
+    description: "Unban a member",
     callback: (client, message, arguments) => {
         let memberID = arguments[0]
         let memberTag = arguments[0].tag

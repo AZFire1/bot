@@ -7,7 +7,7 @@ const config = loadYAML('config')
 
 module.exports = {
     commands: ['search', 'lookup', 'duckduckgo'],
-    expectedArgs: '<query>',
+    expectedArgs: 'query*',
     minArgs: 1,
     description: "Search something with DuckDuckGo",
     callback: (client, message, arguments) => {
