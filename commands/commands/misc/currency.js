@@ -64,7 +64,7 @@ module.exports = {
                 axios.get(`https://v6.exchangerate-api.com/v6/${APIKey}/latest/${baseCurrency}`)
                     .then((data) => {
                         if (data.data.result === 'success') {
-                            rateEmbed = embed('default', `Currency Exchange Rate`, `Here is the exchnage rate of \`${baseCurrency}\` to other common currencies.`).addField(`\`${baseCurrency}\` → `, `\`\`\`${amount}\`\`\``, false)
+                            rateEmbed = embed('default', `Currency Exchange Rate`, `Here is the exchange rate of \`${baseCurrency}\` to other common currencies.`).addField(`\`${baseCurrency}\` → `, `\`\`\`${amount}\`\`\``, false)
                             for (symbol of symbols) {
                                 rateEmbed.addField(`\`${symbol}\``, `\`\`\`${data.data.conversion_rates[symbol]}\`\`\``, true)
                             }
@@ -87,10 +87,10 @@ module.exports = {
                         if (data.data.result === 'success') {
                             let convertedAmount = amount * data.data.conversion_rate
                             let weakerCurrency = amount < convertedAmount ? toCurrency : baseCurrency
-                            message.channel.send(embed('default', `Currency Conversion`, `Here is the exchnage rate of \`${baseCurrency}\` to \`${toCurrency}\`.`).addFields(
+                            message.channel.send(embed('default', `Currency Conversion`, `Here is the exchange rate of \`${baseCurrency}\` to \`${toCurrency}\`.`).addFields(
                                 { name: `\`${baseCurrency}\` → \`${toCurrency}\``, value: `\`\`\`${amount} ${baseCurrency} = ${convertedAmount} ${toCurrency}\`\`\``, inline: false },
                                 { name: `Convertion Rate`, value: `\`\`\`${data.data.conversion_rate}\`\`\``, inline: true },
-                                { name: `Wearker Currency`, value: `\`\`\`${weakerCurrency}\`\`\``, inline: true },
+                                { name: `Weaker Currency`, value: `\`\`\`${weakerCurrency}\`\`\``, inline: true },
                                 { name: `Updated At`, value: `\`\`\`${data.data.time_last_update_utc}\`\`\``, inline: false },
                             ))
                         } else if (data.data["error-type"] === 'unsupported-code') {
