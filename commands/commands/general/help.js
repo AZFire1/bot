@@ -23,9 +23,13 @@ module.exports = {
 			const commandsFiles = fs.readdirSync(path.join(__dirname, '../'));
 			const folders = commandsFiles.filter(command => !command.includes('.js'));
 			for (const folder of folders) {
-				const commandList = fs.readdirSync(path.join(__dirname, '../', folder));
-				const commandListFormat = commandList.join(', ').replace(/\.js/g, '');
-				helpEmbed.addField(title(folder), `\`\`\`${commandListFormat}\`\`\``, true)
+				if (folder !== '.DS_Store') {
+					const commandList = fs.readdirSync(path.join(__dirname, '../', folder));
+					console.log(commandList)
+					const commandListFormat = commandList.join(', ').replace(/\.js/g, '').replaceAll('.DS_Store, ', '');
+					console.log(commandListFormat)
+					helpEmbed.addField(title(folder), `\`\`\`${commandListFormat}\`\`\``, true)
+				}
 			}
 			message.channel.send(helpEmbed);
 		} else {
