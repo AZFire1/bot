@@ -15,13 +15,13 @@ module.exports = {
     callback: (client, message, arguments) => {
         let targetUser = message.mentions.members.first()
         if (!targetUser) return message.channel.send(embed('error', `Mute`, `User \`${arguments[0]}\` cannot be temporarily banned!\nThey could not be found in this server.`));
-        let memberID = targetUser.id
+        
         let reason = arguments.slice(1).join(" ")
-
+        if (!reason) reason = 'Unspecifed';
         let muteRole = message.guild.roles.cache.find(role => role.name === config.Moderation.Mute.Role);
         if (!muteRole) return message.channel.send(embed('error', `No Muted Role`, `No muted role was found in the server, therefore this command cannot be ran.`))
-        if (!reason) reason = 'Unspecifed';
-        if (memberID === message.author.id) return message.channel.send(embed('error', `Mute`, `You cannot unmute yourself!`));
+        
+        if (targetUser.id === message.author.id) return message.channel.send(embed('error', `Mute`, `You cannot unmute yourself!`));
 
         if (!targetUser.roles.highest.editable && config.Moderation.Mute.LowerRolesOnly) {
             return message.channel.send(embed('error', `Mute`, `User ${targetUser} cannot be permanently muted!\n*They might have a higher role than I do.*`));

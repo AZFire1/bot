@@ -7,39 +7,29 @@ const config = loadYAML('config')
 
 module.exports = {
     commands: ['tempban', 'tempoban', 'temp-ban', 'tempo-ban', 'temporaryban', 'temporary-ban'],
-    expectedArgs: 'user* time* reason',
+    expectedArgs: 'user* length* reason',
     minArgs: 2,
     requiredRoles: ['Mod'],
     serverOnly: true,
     description: "Temporarily ban a member",
     callback: (client, message, arguments) => {
         let targetUser = message.mentions.members.first()
-        if (!targetUser) {
-            message.channel.send(embed('error', `Temp Ban`, `User \`${arguments[0]}\` cannot be temporarily banned!\nThey could not be found in this server.`))
-            return
-        }
-        let member = targetUser.id
-        let time = parseInt(arguments[1])
+        if (!targetUser) return message.channel.send(embed('error', `Temp Ban`, `User \`${arguments[0]}\` cannot be temporarily banned!\nThey could not be found in this server.`))
+
+        let length = parseInt(arguments[1])
+        if (length < 1 || length > 7) return message.channel.send(embed('error', `Temp Ban`, `Ban duration cannot be shorter than **1 day** and longer than **7 days**!`))
         let reason = arguments.slice(2).join(" ")
-        if (time < 1 || time > 7) {
-            message.channel.send(embed('error', `Temp Ban`, `Ban duration cannot be shorter than **1 day** and longer than **7 days**!`))
-        }
-        if (!reason) {
-            reason = 'Unspecifed'
-        }
-        if (member === message.author.id) {
-            message.channel.send(embed('error', `Temp Ban`, `You cannot temporarily ban yourself!`))
-            return
-        }
+        if (!reason) reason = 'Unspecifed'
+
+        if (targetUser.id === message.author.id) return message.channel.send(embed('error', `Temp Ban`, `You cannot temporarily ban yourself!`))
+        
         if (!targetUser.bannable) {
-            message.channel.send(embed('error', `Temp Ban`, `User <@${member}> cannot be temporarily banned!\n*They might have a higher role than I do.*`))
-            return
+            return message.channel.send(embed('error', `Temp Ban`, `User ${targetUser} cannot be temporarily banned!\n*They might have a higher role than I do.*`))
         } else {
-            targetUser.ban({ days: time, reason: `${reason}` }).catch(err => {
-                message.channel.send(embed('error', `Unknown`, `${err}`))
-                return
+            targetUser.ban({ days: length, reason: `${reason}` }).catch(err => {
+                return message.channel.send(embed('error', `Unknown`, `${err}`))
             })
-            message.channel.send(embed('default', `User Temp Banned`, `User <@${member}> was temporarily banned!`).addFields(
+            message.channel.send(embed('default', `User Temp Banned`, `User ${targetUser} was temporarily banned!`).addFields(
                 { name: 'Banned By', value: `${message.author}`, inline: true },
                 { name: 'Length', value: `\`\`\`${arguments[0]} days\`\`\``, inline: true },
                 { name: 'Reason', value: `\`\`\`${reason}\`\`\``, inline: false },

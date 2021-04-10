@@ -13,29 +13,21 @@ module.exports = {
     serverOnly: true,
     description: "Ban a member",
     callback: (client, message, arguments) => {
-        let memberTag = message.mentions.members.first()
-        if (!memberTag) {
-            message.channel.send(embed('error', `Ban`, `User \`${arguments[0]}\` cannot be permanently banned!\n*They could not be found in this server.*`))
-            return
-        }
-        let memberID = memberTag.id
+        let targetUser = message.mentions.members.first()
+        if (!targetUser) return message.channel.send(embed('error', `Ban`, `User \`${arguments[0]}\` cannot be permanently banned!\n*They could not be found in this server.*`))
+
         let reason = arguments.slice(1).join(" ")
-        if (!reason) {
-            reason = 'Unspecifed'
-        }
-        if (memberID === message.author.id) {
-            message.channel.send(embed('error', `Ban`, `You cannot permanently ban yourself!`))
-            return
-        }
-        if (!memberTag.bannable) {
-            message.channel.send(embed('error', `Ban`, `User ${memberTag} cannot be permanently banned!\n*They might have a higher role than I do.*`))
-            return
+        if (!reason) reason = 'Unspecifed'
+
+        if (targetUser.id === message.author.id) return message.channel.send(embed('error', `Ban`, `You cannot permanently ban yourself!`))
+
+        if (!targetUser.bannable) {
+            return message.channel.send(embed('error', `Ban`, `User ${targetUser} cannot be permanently banned!\n*They might have a higher role than I do.*`))
         } else {
-            memberTag.ban({ reason: `${reason}` }).catch(err => {
-                message.channel.send(embed('error', `Unknown`, `${err}`))
-                return
+            targetUser.ban({ reason: `${reason}` }).catch(err => {
+                return message.channel.send(embed('error', `Unknown`, `${err}`))
             })
-            message.channel.send(embed('default', `User Banned`, `User ${memberTag} was permanently banned!`).addFields(
+            message.channel.send(embed('default', `User Banned`, `User ${targetUser} was permanently banned!`).addFields(
                 { name: 'Banned By', value: `${message.author}`, inline: true },
                 { name: 'Length', value: `\`\`\`PERMANENT\`\`\``, inline: true },
                 { name: 'Reason', value: `\`\`\`${reason}\`\`\``, inline: false },

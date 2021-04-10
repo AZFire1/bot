@@ -13,32 +13,30 @@ module.exports = {
     serverOnly: true,
     description: "Unban a member",
     callback: (client, message, arguments) => {
-        let memberID = arguments[0]
-        let memberTag = arguments[0].tag
-        if (memberTag) {
-            message.channel.send(embed('error', `Unban`, `User <@${memberID}> \`${memberID}\` cannot be unbanned!\n*They are currently in this server.*`))
-            return
-        }
-        
+        let targetUserID = arguments[0]
+        let targetUser = arguments[0].tag
+
         let reason = arguments.slice(1).join(" ")
-        if (!reason) {
-            reason = 'Unspecifed'
-        }
-        if (memberID === message.author.id) {
-            message.channel.send(embed('error', `Unban`, `You cannot unban yourself!`))
-            return
-        }
-        if (!memberID) {
-            message.guild.members.unban(memberID).catch(err => {
-                message.channel.send(embed('error', `Unknown`, `${err}`))
-                return
-            })
-            message.channel.send(embed('default', `User Unbanned`, `User <@${memberID}> was unbanned!`).addFields(
-                { name: 'Unbanned By', value: `${message.author}`, inline: true },
-                { name: 'Reason', value: `\`\`\`${reason}\`\`\``, inline: false },
-            ))
+        if (!reason) reason = 'Unspecifed'
+
+        if (targetUserID === message.author.id) return message.channel.send(embed('error', `Unban`, `You cannot unban yourself!`))
+
+        if (!message.guild.member(`${targetUserID}`)) {
+            message.guild.members.unban(targetUserID)
+                .then(user => {
+                    if (user) {
+                        message.channel.send(embed('default', `User Unbanned`, `User ${targetUser} was unbanned!`).addFields(
+                            { name: 'Unbanned By', value: `${message.author}`, inline: true },
+                            { name: 'Reason', value: `\`\`\`${reason}\`\`\``, inline: false },
+                        ))
+                    }
+                })
+                .catch(err => {
+                    return message.channel.send(embed('error', `Unknown`, `${err}`))
+                })
+
         } else {
-            message.channel.send(embed('error', `Unban`, `User <@${memberID}> \`${memberID}\` cannot be unbanned!\n*They are currently in this server.*`))
+            message.channel.send(embed('error', `Unban`, `User ${targetUser} \`${targetUserID}\` cannot be unbanned!\n*They are currently in this server.*`))
         }
     },
 };
