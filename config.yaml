@@ -37,6 +37,11 @@ Embeds:
     Text: Aesthetic BOT
     Icon: https://i.imgur.com/PQY5oE6.png
 
+Moderation:
+  Mute:
+    Role: 'Muted'
+    LowerRolesOnly: true
+
 Currency:
   Rate:
     Symbols: 
