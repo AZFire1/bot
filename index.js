@@ -7,12 +7,26 @@ require('module-alias/register')
 const Discord = require('discord.js')
 const client = new Discord.Client()
 
-// Load commands and get version
+// Load YAML
 const loadYAML = require('@modules/yaml.js')
 const config = loadYAML('config')
+
+// Load tasks
+const tasks = require('@modules/tasks')
+
+// Start loop
+const loop = require('@modules/loop')
+
+// Load commands & features
 const loadCommands = require('@root/commands/load-commands')
 const loadFeatures = require('@root/features/load-features')
+
+// Get version
 const { version } = require('@root/package.json')
+
+// SQLite
+const Database = require('better-sqlite3')
+let db = new Database('data.db');
 
 // Env
 require('dotenv').config();
@@ -41,6 +55,9 @@ client.on('ready', async () => {
         }
     });
 
+    tasks('list')
+    tasks('run')
+    loop(true)
     loadCommands(client)
     loadFeatures(client)
 })

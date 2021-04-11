@@ -183,4 +183,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Database
+*.db
+*.db-journal
+
 # End of https://www.toptal.com/developers/gitignore/api/node,macos,windows

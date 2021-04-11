@@ -25,9 +25,7 @@ module.exports = {
 			for (const folder of folders) {
 				if (folder !== '.DS_Store') {
 					const commandList = fs.readdirSync(path.join(__dirname, '../', folder));
-					console.log(commandList)
 					const commandListFormat = commandList.join(', ').replace(/\.js/g, '').replaceAll('.DS_Store, ', '');
-					console.log(commandListFormat)
 					helpEmbed.addField(title(folder), `\`\`\`${commandListFormat}\`\`\``, true)
 				}
 			}
