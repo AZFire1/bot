@@ -64,3 +64,6 @@ client.on('ready', async () => {
 
 // Bot login
 client.login(token);
+
+// Export client
+module.exports.client = client
