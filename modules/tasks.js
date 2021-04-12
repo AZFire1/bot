@@ -73,24 +73,28 @@ module.exports = async (type, task, userID, runAt) => {
                 if (runDate >= runTask.run_at) {
                     switch (runTask.task) {
                         case 'unban':
+                            if (!guild.member(`${runTask.user_id}`)) {
+                                guild.members.unban(runTask.user_id)
+                                    .catch(err => {  })
+                                console.log(`[${runTask.id}]> Unban of ${runTask.user_id} executed`)
+                            }
+
                             db.exec(`DELETE FROM tasks WHERE ${runTask.id}`);
                             removeID = taskIDs.indexOf(runTask.id)
                             taskIDs.splice(removeID, 1, '');
-                            console.log(`[${runTask.id}]> Unban of ${runTask.user_id} executed`)
                             break
                         case 'unmute':
                             let muteRole = guild.roles.cache.find(role => role.name === config.Moderation.Mute.Role);
-                            if (!muteRole) return console.log('No muted role was found in the server, unmute task cannceled.')
 
                             let targetUser = guild.members.cache.get(`${runTask.user_id}`)
-                            if (!targetUser.roles.cache.has(muteRole.id)) return
-                            
-                            targetUser.roles.remove(muteRole.id)
+                            if (targetUser.roles.cache.has(muteRole.id) && muteRole) {
+                                targetUser.roles.remove(muteRole.id)
+                                console.log(`[${runTask.id}]> Unmute of ${runTask.user_id} executed`)
+                            }
 
                             db.exec(`DELETE FROM tasks WHERE ${runTask.id}`);
                             removeID = taskIDs.indexOf(runTask.id)
                             taskIDs.splice(removeID, 1, '');
-                            console.log(`[${runTask.id}]> Unmute of ${runTask.user_id} executed`)
                             return
                         default:
                             db.exec(`DELETE FROM tasks WHERE ${runTask.id}`);
