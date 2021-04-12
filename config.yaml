@@ -99,7 +99,7 @@ NSFW:
 #                                          #
 ############################################
 Eval:
-  Enabled: true
+  Enabled: false
 # The owner ID can be changed at the beginning of this file
 # This command allows to run javascript straight from a text channel!
 
