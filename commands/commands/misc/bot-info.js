@@ -18,17 +18,16 @@ module.exports = {
             uptimeFormated = Math.round(message.client.uptime / 60000) + ' minute(s)'
         }
         if (message.client.uptime >= 3600000 && message.client.uptime < 86400000) {
-            uptimeFormated = Math.round(message.client.uptime / 360000) + ' hour(s)'
+            uptimeFormated = Math.round(message.client.uptime / 3600000) + ' hour(s)'
         }
         if (message.client.uptime >= 86400000) {
             uptimeFormated = Math.round(message.client.uptime / 86400000) + ' day(s)'
         }
         message.channel.send(embed('default', `Bot Info`, `Here is some info on the bot.`).addFields(
             { name: 'Name', value: `${message.client.user}`, inline: false },
-            { name: 'Server Count', value: `\`\`\`${message.client.guilds.cache.size}\`\`\``, inline: false },
             { name: 'Uptime', value: `\`\`\`${uptimeFormated}\`\`\``, inline: false },
             { name: 'Version', value: `\`\`\`v${version}\`\`\``, inline: false },
-            { name: 'Creator', value: `FrenchBones (https://frenchbones.net)`, inline: false },
+            { name: 'Links', value: `[GitHub Organisation](https://github.com/Aesthetic-BOT)\n[Website](https://aesthetic-bot.com)`, inline: false },
         ))
 	},
 };
